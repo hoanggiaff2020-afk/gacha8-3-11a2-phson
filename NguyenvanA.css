@@ -1,0 +1,85 @@
+/* KHUNG NGOÀI */
+.uno-card {
+  width: 190px;
+  height: 260px;
+  perspective: 1000px;
+  border-radius: 15px;
+}
+
+/* PHẦN BÊN TRONG */
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 1s;
+  transform-style: preserve-3d;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* HIỆU ỨNG LẬT */
+.uno-card:hover .card-inner {
+  transform: rotateY(180deg) rotate(15deg);
+}
+
+/* HAI MẶT */
+.front,
+.back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+  backface-visibility: hidden;
+  overflow: hidden;
+}
+
+.front {
+  background-image: url("MD.png"); /* đổi nếu cần */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* ========================= */
+/* MẶT SAU */
+/* ========================= */
+.back {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transform: rotateY(180deg);
+}
+
+/* NỘI DUNG MẶT SAU */
+.back-text {
+  color: #E5CA22;
+  font-size: 3.5em;
+  font-weight: 900;
+  transform: rotate(-15deg);
+  text-shadow:
+    -1px 1px 0 #000,
+    -2px 2px 0 #000,
+    -3px 3px 0 #000,
+    -4px 4px 0 #000;
+}
+
+#cardContainer {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.uno-card {
+  animation: popIn 0.6s ease;
+}
+
+@keyframes popIn {
+  from {
+    transform: scale(0.2) rotate(-30deg);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}

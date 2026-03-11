@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hộp Rút Thẻ</title>
+
+<link rel="stylesheet" href="card-box.css">
+<link rel="stylesheet" href="NguyenvanA.css">
+<link rel="stylesheet" href="button-style.css">
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url("background.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #f6dbe7;
+}
+</style>
+
+</head>
+<body>
+
+<div class="card-box">
+    <h2>GACHA BOX 🌸</h2>
+
+    <div class="flip-card">
+      <div class="flip-card-inner" id="cardInner">
+
+        <!-- MẶT TRƯỚC -->
+        <div class="flip-card-front">
+            <div class="form-area">
+                <h3>Nhập tên của bạn</h3>
+                <input type="text" id="username" placeholder="Nhập tên..." />
+                <button onclick="flipCard()">OK</button>
+            </div>
+        </div>
+
+        <!-- MẶT SAU -->
+        <!-- MẶT SAU -->
+<div class="flip-card-back">
+
+<div class="gacha-screen">
+    <button class="back-btn" onclick="goBack()">↩</button>
+    <p class="gacha-title">CHÚC CÁNH ĐÀN ÔNG MAY MẮN</p>
+
+    <div class="card-slot">
+    <img id="displayImage" src="" style="width:120px; display:none;">
+</div>
+
+    <button class="draw-btn" onclick="drawCard()">Rút Thẻ</button>
+
+    <!-- container chỉ chứa thẻ -->
+    <div id="cardContainer"></div>
+
+    <!-- container riêng cho nút -->
+    <div id="deleteArea"></div>
+
+</div>
+</div>
+      </div>
+    </div>
+</div>
+
+<script>
+// danh sách thẻ chính
+let cardList = [
+   "DuyAnh.png",
+    "TheAnh.png",
+    "Dang.png",
+    "Dao.png", //*
+    "Duc.png",
+    "TienDung.png",
+    "Hien.png",
+    "PhucHung.png",
+    "DucHuy.png",
+    "NguyenViet.png",
+    "GiaHuy.png",
+    "DuyKhanh.png",
+    "QuocKhanh.png",
+    "Khoi.png",
+    "NguyenKien.png",
+    "Quy.png",
+    "PhamKien.png",
+    "Vuong.png",
+    "QuangDung.png",
+    "Hoang.png",
+    "Lam.png",
+    "QuocViet.png"
+];
+// danh sách thẻ phụ
+let bonusCardList = [
+    "BONUS1.png",
+    "BONUS5.png",
+    "BONUS6.png",
+    "BONUS7.png",
+    "BONUS9.png",
+    "BONUS10.png"
+];
+
+const specialPlayers = {
+
+    "KIM KHÁNH": {
+        main: "ChiDung.png",
+        bonus: "BONUSK.png"
+    },
+
+    "THẨM THẢO": {
+        main: "Binh.png",
+        bonus: "BONUS4.png"
+    },
+
+    "MINH QUỲNH": {
+        main: "Nam.png",
+        bonus: "BONUS3.png"
+    },
+
+    "BẢO MINH": {
+        main: "Bao.png",
+        bonus: "BONUS2.png"
+    }
+};
+
+// Lật khi bấm OK
+function flipCard() {
+
+    const name = document.getElementById("username").value.trim().toUpperCase();
+
+    if(name !== "") {
+
+        const img = document.getElementById("displayImage");
+
+        let fileName = name
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g,"")
+        .replace(/\s+/g,"")
+        .toLowerCase();
+
+        img.src = fileName + ".png";
+        img.style.display = "block";
+
+        document.getElementById("cardInner").style.transform = "rotateY(180deg)";
+    }
+}
+
+// Rút thẻ
+let isDrawing = false;
+
+function drawCard() {
+    if (isDrawing) return; // chặn bấm nhiều lần
+    isDrawing = true;
+    document.getElementById("deleteArea").innerHTML = "";
+    const name = document.getElementById("username").value.trim().toUpperCase();
+    const display = document.getElementById("displayImage");
+    const container = document.getElementById("cardContainer");
+
+    // kiểm tra hết thẻ
+    if (cardList.length === 0) {
+    alert("HẾT THẺ!");        
+    container.innerHTML = "";
+        return;
+    }
+
+    // ⭐ nếu là Quỳnh Nga
+    if (name === "QUỲNH NGA") {
+        setTimeout(() => {
+            window.location.href = "index2.html";
+        }, 1800);
+
+        return;
+    }
+
+    container.innerHTML = "";
+
+    setTimeout(() => {
+
+    const name = document.getElementById("username").value.trim().toUpperCase();
+
+    // ===== RÚT THẺ CHÍNH =====
+   // ===== KIỂM TRA TÊN ĐẶC BIỆT =====
+if (specialPlayers[name]) {
+
+    currentCard = specialPlayers[name].main;
+
+    if (specialPlayers[name].bonus === "random") {
+
+        const bonusIndex = Math.floor(Math.random() * bonusCardList.length);
+        bonusCard = bonusCardList[bonusIndex];
+
+    } else {
+
+        bonusCard = specialPlayers[name].bonus;
+
+    }
+
+} else {
+
+    const randomIndex = Math.floor(Math.random() * cardList.length);
+    currentCard = cardList[randomIndex];
+
+    // tỉ lệ rút bonus
+    if (Math.random() < 0.5) {
+        const bonusIndex = Math.floor(Math.random() * bonusCardList.length);
+        bonusCard = bonusCardList[bonusIndex];
+    } else {
+        bonusCard = null;
+    }
+
+}
+    // tạo thẻ chính
+    const card = document.createElement("div");
+    card.className = "uno-card";
+
+    card.innerHTML = `
+        <div class="card-inner">
+            <div class="front"></div>
+            <div class="back" style="background-image: url('${currentCard}')"></div>
+        </div>
+    `;
+
+    container.appendChild(card);
+
+    if (bonusCard) {
+
+    const bonus = document.createElement("div");
+    bonus.className = "uno-card";
+
+    bonus.innerHTML = `
+        <div class="card-inner">
+            <div class="front"></div>
+            <div class="back" style="background-image: url('${bonusCard}')"></div>
+        </div>
+    `;
+
+    container.appendChild(bonus);
+
+}
+
+    // ===== TẠO NÚT DELETE =====
+    const newBtn = document.createElement("button");
+    newBtn.className = "noselect";
+    newBtn.onclick = resetGame;
+
+    newBtn.innerHTML = `
+        <span class="text">DELETE</span>
+        <span class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"/>
+            </svg>
+        </span>
+    `;
+
+   const btnWrapper = document.createElement("div");
+btnWrapper.className = "btn-wrapper";
+btnWrapper.appendChild(newBtn);
+
+document.getElementById("deleteArea").appendChild(btnWrapper);
+isDrawing = false;
+
+}, 1500);
+}
+
+function goBack(){
+
+    document.getElementById("cardContainer").innerHTML = "";
+    document.getElementById("deleteArea").innerHTML = "";
+
+    const img = document.getElementById("displayImage");
+    img.src = "";
+    img.style.display = "none";
+
+    document.getElementById("cardInner").style.transform = "rotateY(0deg)";
+}
+// Reset + xóa thẻ đã quay
+function resetGame() {
+
+    // xóa thẻ chính khỏi danh sách
+    cardList = cardList.filter(card => card !== currentCard);
+
+    // xóa thẻ bonus khỏi danh sách
+    if (bonusCard) {
+        bonusCardList = bonusCardList.filter(card => card !== bonusCard);
+    }
+
+    document.getElementById("deleteArea").innerHTML = "";
+    document.getElementById("cardContainer").innerHTML = "";
+    document.getElementById("username").value = "";
+const img = document.getElementById("displayImage");
+img.src = "";
+img.style.display = "none";
+    document.getElementById("cardInner").style.transform = "rotateY(0deg)";
+}
+
+</script>
+
+</body>
+</html>

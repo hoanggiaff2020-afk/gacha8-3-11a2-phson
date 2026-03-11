@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+    <title>Quà 8/3 - Ngày Quốc tế Phụ nữ</title>
+    <meta name="description" content="Trang quà tặng 8/3 dành cho Ngày Quốc tế Phụ nữ: mở hộp quà, đọc thư yêu thương và xem ảnh quà kèm nhạc nền.">
+    <!-- Open Graph for Facebook -->
+    <meta property="og:title" content="Quà 8/3 - Ngày Quốc tế Phụ nữ">
+    <meta property="og:description" content="Mở hộp quà, đọc thư yêu thương và xem ảnh quà kèm nhạc nền. Chúc mừng Ngày Quốc tế Phụ nữ 8/3!">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="index.html">
+    <meta property="og:image" content="giftimage.png">
+    <meta property="og:image:alt" content="Quà 8/3 - Ngày Quốc tế Phụ nữ">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Quà 8/3 - Ngày Quốc tế Phụ nữ">
+    <meta name="twitter:description" content="Mở hộp quà, đọc thư yêu thương và xem ảnh quà kèm nhạc nền.">
+    <meta name="twitter:image" content="giftimage.png">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&display=swap" rel="stylesheet">
+        <!-- Thêm các thư viện phục vụ scene phong thư -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap-grid.min.css" integrity="sha512-JQksK36WdRekVrvdxNyV3B0Q1huqbTkIQNbz1dlcFVgNynEMRl0F8OSqOGdVppLUDIvsOejhr/W5L3G/b3J+8w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html{
+            height: 100%;
+            overflow: hidden; /* khóa cuộn toàn trang */
+        }
+        body {
+            height: 100vh;
+            width: 100vw;
+            position: relative;
+            overflow: hidden;
+            -webkit-touch-callout: none; /* iOS: hạn chế callout */
+            -webkit-user-select: none;   /* iOS: hạn chế chọn chữ gây zoom */
+            -ms-user-select: none;
+            user-select: none;
+        }
+        .background-image{
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            object-position: center;
+            transition: transform 0.3s ease;
+            z-index: 1;
+        }
+        .corner-image {
+            position: absolute;
+            width: 60vw;
+            height: 60vh;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+            z-index: 1;
+        }
+        .corner-image-right{
+            position: absolute;
+            width: 90vw;
+            height: 90vh;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+            z-index: 1;
+        }
+
+        .bottom-left-right{
+            position: absolute;
+            width: 50vw;
+            height: 50vh;
+            bottom: -10vh;
+            right: -20vh;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+            z-index: 2;
+            transform:rotate(-20deg);
+        }
+    
+
+        .heart1{
+            position: absolute;
+            width: 30vw;
+            height: 53vh;
+            bottom: -8vh;
+            right: 5vh;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+            z-index: 1;
+        }
+
+        .heart2{
+            position: absolute;
+            width: 20vw;
+            height: 34vh;
+            bottom:35vh;
+            right: 22vh;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+            z-index: 1;
+            transform: rotate(-19deg);
+        }
+
+        /* Ảnh ở góc dưới trái */
+        .bottom-left {
+            bottom: 0vh;
+            left: -19vh;
+            transform-origin: top left;
+        }
+
+        .bottom-right {
+            bottom: 0vh;
+            right: -19vh;
+            transform-origin: top right;
+        }
+
+       
+        /* Ảnh ở góc trên phải */
+        .top-left {
+            top: -15vh;
+            left: -25vw;
+            transform-origin: bottom left;
+        }
+
+      
+
+       
+        /* ---------- Hiệu ứng động & vào trang ---------- */
+        /* Đăng ký biến để phối hợp xoay + nhịp tim mà không ghi đè transform */
+        @property --scale {
+            syntax: '<number>';
+            inherits: false;
+            initial-value: 1;
+        }
+        /* Đăng ký biến hoạt ảnh cho nắp hộp (Safari iOS cần để interpolate) */
+        @property --lidY {
+            syntax: '<length-percentage>';
+            inherits: false;
+            initial-value: 0px;
+        }
+        @property --lidRot {
+            syntax: '<angle>';
+            inherits: false;
+            initial-value: 0deg;
+        }
+
+        /* Trái tim: dùng biến --rot cho góc xoay sẵn có, --scale cho nhịp tim */
+        .heart1,
+        .heart2{
+            transform: rotate(var(--rot, 0deg)) scale(var(--scale, 1));
+            transform-origin: center;
+        }
+
+        /* Đặt góc xoay cho từng trái tim */
+        .heart1{ --rot: 0deg; }
+        .heart2{ --rot: -19deg; }
+
+        /* Nhịp đập tim: thay đổi --scale để không xung đột với rotate */
+        @keyframes heartbeat {
+            0%, 100% { --scale: 1; }
+            25% { --scale: 1.06; }
+            50% { --scale: 0.98; }
+            75% { --scale: 1.06; }
+        }
+
+        /* Hộp quà giữa màn hình */
+        .boxgift{
+            position: absolute;
+            top: 60%;
+            left: 50%;
+            /* Dùng biến để không xung đột với animation wiggle */
+            --tx: 0; /* translateX phụ */
+            --ty: 0; /* translateY phụ */
+            --rot: 0deg; /* góc xoay phụ */
+            transform: translate(-50%, -50%) translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(var(--scale, 1));
+            z-index: 3;
+            width: min(12vw, 110px);
+            aspect-ratio: 1 / 1; /* khung tương đối để xếp ảnh */
+            pointer-events: auto;
+            cursor: pointer;
+        }
+        .boxgift .box-gift{
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            image-rendering: auto;
+        }
+        /* Thân hộp đặt ở đáy khung */
+        .boxgift .base{
+            bottom: 0;
+            z-index: 1;
+        }
+        /* Nắp hộp chồng lên thân, hơi trùng xuống một chút để khít hơn */
+        .boxgift .lid{
+            bottom: 60%; /* điều chỉnh để khớp với ảnh thực tế */
+            z-index: 2;
+            /* trạng thái đóng */
+            transform: translateX(-50%) translateY(0) rotate(0deg);
+            transform-origin: center; /* trục xoay hợp lý cho iOS */
+        }
+
+        /* Pulse (phóng to/thu nhỏ) nhẹ nhàng cho hộp quà khi chưa mở */
+        @keyframes giftPulse {
+            0%, 100% { --scale: 1; }
+            50% { --scale: 1.08; }
+        }
+        body.is-loaded .boxgift{ animation: giftPulse 1.2s ease-in-out .4s infinite; }
+
+        /* Mở nắp hộp khi click: animate trực tiếp transform để tương thích iOS */
+        @keyframes lidOpenTransform {
+            0%   { transform: translateX(-50%) translateY(0) rotate(0deg); }
+            60%  { transform: translateX(-50%) translateY(-58%) rotate(-22deg); }
+            100% { transform: translateX(-50%) translateY(-52%) rotate(-18deg); }
+        }
+        .boxgift.open{ animation: none; }
+        .boxgift.open .lid{ animation: lidOpenTransform .7s ease-out forwards; }
+
+        /* (Đã bỏ confetti theo yêu cầu) */
+
+        /* Lơ lửng nhẹ cho các cụm hoa/góc */
+        @keyframes floatY {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-10px); }
+        }
+
+        /* Vào trang mượt: mờ dần */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Tiêu đề trung tâm */
+        .headline{
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 3;
+            width: 92vw;
+            text-align: center;
+            font-family: 'Dancing Script', cursive;
+            font-weight: 700;
+            font-size: clamp(32px, 7.6vw, 104px);
+            line-height: 1.5;
+            letter-spacing: 0.2px;
+            padding: 0 2vw;
+            background: linear-gradient(90deg,#ff77aa,#f70e8e,#b9515f);
+            background-size: 300% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            filter: drop-shadow(0 6px 18px rgba(255, 105, 180, 0.35));
+            opacity: 0;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { filter: drop-shadow(0 6px 18px rgba(255,105,180,0.35)); }
+            50% { filter: drop-shadow(0 10px 26px rgba(255,105,180,0.65)); }
+        }
+
+        body.is-loaded .headline{
+            animation: fadeIn .9s ease-out .3s forwards, gradientShift 6s linear .9s infinite, glowPulse 2.4s ease-in-out .9s infinite;
+        }
+        /* Trạng thái trước khi tải xong */
+        body:not(.is-loaded) .background-image,
+        body:not(.is-loaded) .corner-image,
+        body:not(.is-loaded) .corner-image-right,
+        body:not(.is-loaded) .heart1,
+        body:not(.is-loaded) .heart2{
+            opacity: 0;
+        }
+
+        /* Khi đã tải: áp hiệu ứng vào trang và chuyển động */
+        body.is-loaded .background-image{ animation: fadeIn .6s ease-out forwards; }
+        body.is-loaded .corner-image{ animation: fadeIn .8s ease-out forwards, floatY 6s ease-in-out .8s infinite alternate; }
+        body.is-loaded .corner-image-right{ animation: fadeIn .9s ease-out forwards, floatY 7s ease-in-out .9s infinite alternate; }
+        /* Cả hai trái tim đập cùng nhịp, bắt đầu sau 1.1s để khớp kết thúc fadeIn */
+        body.is-loaded .heart1{ animation: fadeIn 1s ease-out forwards, heartbeat 1.5s ease-in-out 1.1s infinite; }
+
+        /* Responsive: Desktop lớn */
+        @media (min-width: 1440px){
+            .headline{
+                top: 22%;
+                font-size: clamp(48px, 5.6vw, 120px);
+            }
+            .boxgift{ width: min(14vw, 220px); top: 58%; }
+            .corner-image-right{ width: 86vw; height: 86vh; right: -16vh; }
+            .corner-image.bottom-left{ left: -16vh; }
+        }
+
+        /* Responsive: Tablet */
+        @media (max-width: 1024px){
+            .headline{
+                top: calc(18% + env(safe-area-inset-top, 0px));
+                font-size: clamp(28px, 6.2vw, 72px);
+            }
+            .boxgift{
+                width: min(22vw, 140px);
+                top: 62%;
+            }
+            .corner-image{ width: 64vw; height: 54vh; }
+            .corner-image-right{ width: 96vw; height: 86vh; right: -18vh; }
+            .corner-image.bottom-left{ left: -22vh; }
+        }
+
+        /* Responsive: Tablet dọc/Phablet */
+        @media (max-width: 768px){
+            .headline{ top: calc(17% + env(safe-area-inset-top, 0px)); font-size: clamp(26px, 7.2vw, 64px); }
+            .boxgift{ width: min(40vw, 170px); top: 64%; }
+            .corner-image{ width: 70vw; height: 50vh; }
+            .corner-image-right{ width: 110vw; height: 92vh; right: -24vh; }
+            .corner-image.bottom-left{ left: -24vh; }
+            .heart1{ width: 38vw; height: auto; }
+            .heart2{ width: 24vw; height: auto; right: 12vh; bottom: 36vh; }
+        }
+
+        /* Responsive: Mobile */
+        @media (max-width: 600px){
+            .headline{
+                top: calc(14% + env(safe-area-inset-top, 0px));
+                font-size: clamp(24px, 8.8vw, 56px);
+                line-height: 1.2;
+                padding: 0 4vw;
+            }
+            .boxgift{
+                width: min(26vw, 80px);
+                top: 45%;
+            }
+            .heart1{
+                width: 52vw; height: auto; bottom: 3vh;right: 0;
+            }
+            .heart2{
+                width: 28vw; height: auto; bottom: 20vh; right: 8vh;
+            }
+            .corner-image-right{ width: 128vw; height: 50vh; right: -2vh; }
+            .corner-image.bottom-left{
+                left: -6vh;
+            }
+           /* ẩn nó đi */
+            .bottom-left-right{ display: none; }
+        }
+
+      
+        /* Giảm chuyển động nếu người dùng chọn */
+        @media (prefers-reduced-motion: reduce){
+            /* chỉ giảm chuyển động nền/cụm hoa, giữ pulse hộp và heartbeat */
+            .background-image,
+            .corner-image,
+            .corner-image-right{ animation: none !important; }
+        }
+
+        /* Ẩn mọi thứ trừ hình nền khi đã mở hộp sau 1s */
+        body.hide-ui .corner-image,
+        body.hide-ui .corner-image-right,
+        body.hide-ui .bottom-left-right,
+        body.hide-ui .heart1,
+        body.hide-ui .heart2,
+        body.hide-ui .headline,
+        body.hide-ui .boxgift{
+            opacity: 0 !important;
+            pointer-events: none !important;
+            transition: opacity .4s ease !important;
+        }
+
+        /* Trạng thái ẩn hẳn scene thư, chỉ còn nền */
+        body.final-hide #letterScene{ display: none !important; }
+        /* Lớp phủ ảnh cuối (ẩn mặc định) */
+        #giftOverlay{
+            position: absolute; inset: 0; z-index: 6; display: none;
+            align-items: center; justify-content: center; pointer-events: none;
+            background: transparent; opacity: 0; transition: opacity 1.2s ease;
+        }
+        /* tiện ích ẩn phần tử */
+        .is-hidden{ display: none !important; }
+        #giftOverlay.show{ display: flex; opacity: 1; }
+        #giftOverlay img{ max-width: min(92vw, 860px); max-height: 92vh; width: auto; height: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.25); border-radius: 8px; margin-bottom: min(14vh, 120px); }
+        /* lớp anim chồng trên ảnh quà */
+        #giftOverlay .anim{ position: absolute; pointer-events: none; box-shadow: none !important; border-radius: 0; }
+        #giftOverlay .anim.heartBottom{ bottom: 70%; left: 50%; transform: translateX(-50%); width: min(220px, 36vw); }
+        #giftOverlay .anim.traiTimTop{ top: 12%; right: 33%; width: min(160px, 26vw); }
+        /* @keyframes floatSlow{ 0%{ transform: translate(-50%,0);} 50%{ transform: translate(-50%,-12px);} 100%{ transform: translate(-50%,0);} }
+        @keyframes drift{ 0%{ transform: translate(0,0) rotate(0deg);} 50%{ transform: translate(0,-10px) rotate(4deg);} 100%{ transform: translate(0,0) rotate(0deg);} } */
+        #giftOverlay.show .heartBottom{ animation: floatSlow 2.6s ease-in-out infinite; }
+        #giftOverlay.show .traiTimTop{ animation: drift 3.2s ease-in-out infinite; }
+
+        /* Caption dưới ảnh với typing */
+        #giftOverlay .caption{
+            position: absolute; bottom:8vh; left: 50%; transform: translateX(-50%);
+            width: min(92vw, 860px); max-width: 92vw; padding: 10px 14px;
+            text-align: center; font-family: 'Dancing Script', cursive; font-size: clamp(16px, 3.8vw, 28px);
+            color: #ff6b9d; text-shadow: 0 1px 2px rgba(0,0,0,.35);
+            background: rgba(255,255,255,0.0); border-radius: 8px; pointer-events: none;
+        }
+
+        /* Loader trung tâm khi chờ dữ liệu backend */
+        #pageLoader{ position: absolute; inset: 0; z-index: 1000; display: none; align-items: center; justify-content: center; background: rgba(0,0,0,.45); }
+        #pageLoader.show{ display: flex; }
+        #pageLoader .wrap{ display: flex; flex-direction: column; align-items: center; gap: 14px; }
+        #pageLoader .spinner{ width: 64px; height: 64px; border: 6px solid rgba(211, 7, 234, 0.35); border-top-color: #a317a5; border-radius: 50%; animation: spin 1s linear infinite; }
+        #pageLoader .text{ color: hsl(296, 97%, 65%); font-family: system-ui, sans-serif; font-size: 20px; text-align: center; padding: 0 16px; }
+        @keyframes spin{ to{ transform: rotate(360deg);} }
+
+        /* ---------- SCENE PHONG THƯ (chèn từ file thứ hai) ---------- */
+        /* Gói toàn bộ scene trong #letterScene để dễ bật/tắt */
+        #letterScene{ position: absolute; inset: 0; z-index: 10; display: none; }
+        #letterScene .container{
+            display: flex; justify-content: center; align-items: center; height: 97vh;
+        }
+        #letterScene .container svg{ width: 50%; height: 50%; }
+        #letterScene *{ margin: 0; padding: 0; }
+        #letterScene .body-letter{ display: flex; justify-content: center; align-items: center; height: 100vh; background-color: transparent; }
+        #letterScene .letter{ position: relative; z-index: 1; }
+        #letterScene .valentines{ position: relative; top: 50px; cursor: pointer; animation: up 3s linear infinite; }
+        @keyframes up{ 0%,100%{ transform: translateY(0);} 50%{ transform: translateY(-30px);} }
+        #letterScene .envelope{ position: relative; width: 300px; height: 200px; background-color: #f08080; }
+        #letterScene .envelope:before{ background-color: #f08080; content: ""; position: absolute; width: 212px; height: 212px; transform: rotate(45deg); top: -105px; left: 44px; border-radius: 30px 0 0 0; }
+        #letterScene .card{ position: absolute; background-color: #eae2b7; width: 270px; height: 170px; top: 5px; left: 15px; box-shadow: -5px -5px 100px rgba(0,0,0,0.4); }
+        #letterScene .card:before{ content: ""; position: absolute; border: 3px dotted #003049; width: 240px; height: 140px; left: 12px; top: 12px; }
+        #letterScene .text{ position: absolute; font-family: 'Brush Script MT', cursive; font-size: 30px; text-align: center; line-height: 25px; top: 19px; left: 85px; color: #003049; }
+        #letterScene .heart{ background-color: #d62828; display: inline-block; height: 30px; margin: 0 10px; position: relative; top: 110px; left: 105px; transform: rotate(-45deg); width: 30px; }
+        #letterScene .heart:before, #letterScene .heart:after{ content: ""; background-color: #d62828; border-radius: 50%; height: 30px; position: absolute; width: 30px; }
+        #letterScene .heart:before{ top: -15px; left: 0; }
+        #letterScene .heart:after{ left: 15px; top: 0; }
+        #letterScene .hearts{ position: absolute; top: 0; }
+        #letterScene .one, #letterScene .two, #letterScene .three, #letterScene .four, #letterScene .five{ background-color: red; display: inline-block; height: 10px; margin: 0 10px; position: relative; transform: rotate(-45deg); width: 10px; top: 50px; }
+        #letterScene .one:before, #letterScene .one:after,
+        #letterScene .two:before, #letterScene .two:after,
+        #letterScene .three:before, #letterScene .three:after,
+        #letterScene .four:before, #letterScene .four:after,
+        #letterScene .five:before, #letterScene .five:after{ content: ""; background-color: red; border-radius: 50%; height: 10px; position: absolute; width: 10px; }
+        #letterScene .one:before, #letterScene .two:before, #letterScene .three:before, #letterScene .four:before, #letterScene .five:before{ top: -5px; left: 0; }
+        #letterScene .one:after, #letterScene .two:after, #letterScene .three:after, #letterScene .four:after, #letterScene .five:after{ left: 5px; top: 0; }
+        #letterScene .one{ left: 10px; animation: heart 1s ease-out infinite; }
+        #letterScene .two{ left: 30px; animation: heart 2s ease-out infinite; }
+        #letterScene .three{ left: 50px; animation: heart 1.5s ease-out infinite; }
+        #letterScene .four{ left: 70px; animation: heart 2.3s ease-out infinite; }
+        #letterScene .five{ left: 90px; animation: heart 1.7s ease-out infinite; }
+        @keyframes heart{ 0%{ transform: translateY(0) rotate(-45deg) scale(0.3); opacity: 1;} 100%{ transform: translateY(-150px) rotate(-45deg) scale(1.3); opacity: 0.5;} }
+        #letterScene .front{ position: absolute; border-right: 180px solid #f4978e; border-top: 95px solid transparent; border-bottom: 100px solid transparent; left: 120px; top: 5px; width: 0; height: 0; z-index: 10; }
+        #letterScene .front:before{ position: absolute; content: ""; border-left: 300px solid #f8ad9d; border-top: 195px solid transparent; left: -120px; top: -95px; width: 0; height: 0; }
+        #letterScene .shadow{ position: absolute; width: 330px; height: 25px; border-radius: 50%; background-color: rgba(0,0,0,0.3); top: 265px; left: -15px; animation: scale 3s linear infinite; z-index: -1; }
+        @keyframes scale{ 0%,100%{ transform: scaleX(1);} 50%{ transform: scaleX(0.85);} }
+        #letterScene .hover-animation{ animation: hover 1.75s ease-in-out infinite; }
+        #letterScene #castle{ display: flex; justify-content: center; align-items: center; height: 100vh; background-color: transparent; }
+        #letterScene .dustDef{ position: absolute; background-color: white; border-radius: 100%; box-shadow: 0 0 3px 1px white; opacity: 0; }
+        @keyframes hover{ 0%{ margin-top: 60px;} 50%{ margin-top: 50px;} 100%{ margin-top: 60px;} }
+        @keyframes glow{ 0%{ box-shadow: 0 0 25px 0 #e8b2ca;} 50%{ box-shadow: 0 0 45px 0 #e8b2ca;} 100%{ box-shadow: 0 0 25px 0 #e8b2ca;} }
+        @keyframes fall{ 5%{ top: 209px; left: 105px; transform: rotate(55deg) scale(0.9,0.95) skew(-18deg); opacity: .9;} 30%{ left: 90px;} 55%{ left: 130px;} 60%,100%{ top: 380px; transform: rotate(30deg) scale(0.9,0.95) skew(-32deg); opacity: 0;} }
+        @keyframes floatAnimate{ 0%{ background-size: 105% 120%; background-position: 0 0; opacity: .7;} 50%{ background-size: 100% 100%; background-position: 0 0; opacity: .5;} 100%{ background-size: 105% 120%; background-position: 0 0; opacity: .7;} }
+        #letterScene svg{ width: 80%; display: block; position: absolute; margin: auto; top: 0; bottom: 0; left: 0; right: 0; z-index: 1; }
+        #letterScene text{ fill: #e6668a; font-family: consolas; font-size: 9px; }
+        #letterScene p{ position: absolute; z-index: 2; }
+        #letterScene label{ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; opacity: .8; }
+        #letterScene .letters{ position: absolute; width: 65px; transition: 10s ease-in-out; cursor: pointer; z-index: 1000; }
+        #letterScene .letters img{ width: 100%; }
+        #letterScene .wrapperLetterForm{ position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1000; background: rgba(0,0,0,0.7); display: none; }
+        #letterScene .boxLetter{ width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
+        #letterScene .boxLetter .formLetter{ position: relative; width: 600px; height: 350px; background-color: #FFEBEB; border-radius: 20px; z-index: 100; padding: 20px 15px; box-shadow: rgba(0,0,0,0.24) 0px 3px 8px; }
+        #letterScene .formLetter .wrapperLetter{ position: relative; width: 100%; height: 100%; border: 2px dashed #FF6666; border-radius: inherit; display: flex; }
+        #letterScene .boxLetter .before{ position: absolute; width: 600px; height: 350px; background: #fff; transform: rotate(-15deg); border-radius: 20px; z-index: 10; }
+        #letterScene .formLetter .heartLetter{ position: absolute; width: 30px; height: 30px; border-radius: 50%; background: #FFEBEB; display: flex; justify-content: center; align-items: center; z-index: 10; }
+        #letterScene .heartLetter .heartLetterItem{ position: relative; width: 10px; height: 10px; transform: rotate(45deg); background: #FF6666; }
+        #letterScene .heartLetter:first-child{ right: 5px; top: 10px; }
+        #letterScene .heartLetter:nth-child(2){ left: 5px; bottom: 10px; }
+        #letterScene .heartLetterItem::before, #letterScene .heartLetterItem::after{ position: absolute; content: ''; width: 100%; height: 100%; border-radius: 50%; background: inherit; }
+        #letterScene .heartLetterItem::before{ top: -50%; }
+        #letterScene .heartLetterItem::after{ left: -50%; }
+        #letterScene .giftbox{ position: relative; width: 40%; height: 100%; }
+        #letterScene .giftbox .img{ position: absolute; width: 160px; bottom: -10px; left: 0; z-index: 100; }
+        #letterScene .giftbox img{ width: 100%; }
+        #letterScene .textLetter{ width: 100%; flex-direction: column; justify-content: center; display: flex; align-items: center; user-select: none; }
+        #letterScene .textLetter h2{ font-size: 30px; font-weight: 700; font-family: 'Dancing Script', cursive; }
+        #letterScene .textLetter .contentLetter{ font-size: 19px; text-align: center; padding: 0 30px; margin-top: 10px; font-family: 'Dancing Script', cursive; position: initial; word-break: break-word; overflow-wrap: anywhere; white-space: pre-wrap; max-height: 55vh; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+        #letterScene .fa-xmark{ position: absolute; right: 20px; top: 20px; color: #fff; cursor: pointer; font-size: 25px; }
+        /* Nút mũi tên tiếp tục trong dialog thư */
+        #letterScene .letterNextBtn{
+            position: absolute; right: 4px; bottom: 2px; z-index: 12;
+            width: 44px; height: 44px; border-radius: 50%; border: none; cursor: pointer;
+            background: #FF6666; color: #fff; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.18);
+        }
+        #letterScene .letterNextBtn:active{ transform: scale(0.96); }
+        #letterScene .show{ display: block; }
+        #letterScene .heartAnimation{ position: absolute; width: 150px; bottom: 0; }
+        #letterScene .heartAnimation img{ width: 100%; }
+        #letterScene .mewmew1, #letterScene .mewmew2{ position: absolute; width: 90px; }
+        #letterScene .mewmew1{ bottom: 0; left: 0; }
+        #letterScene .mewmew2{ bottom: 0; right: 0; }
+        #letterScene .mewmew1 img, #letterScene .mewmew2 img{ width: 100%; }
+        #letterScene .signature{ position: absolute; bottom: 10px; right: 90px; font-weight: 700; font-family: 'Dancing Scrip', cursive; font-size: 20px; color: #FF6666; font-style: italic; text-align: right; z-index: 5; }
+        @media (max-width: 480px){
+            #letterScene .boxLetter .formLetter{ width: 92vw; height: auto; max-height: 80vh; }
+            #letterScene .formLetter .wrapperLetter{ overflow: hidden; }
+            #letterScene .giftbox{ display: none; }
+            #letterScene .textLetter{ padding: 6px 4px; }
+            #letterScene .textLetter h2{ font-size: 24px; }
+            #letterScene .textLetter .contentLetter{ font-size: 16px; max-height: 58vh; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 0 12px; }
+            #letterScene .heartAnimation{ position: static; width: 120px; margin: 8px auto 0; }
+            #letterScene .signature{ right: 35px; bottom: 8px; font-size: 16px; }
+            #giftOverlay .caption{
+              bottom: 16vh;}
+        }
+    </style>
+</head>
+<body>   
+
+
+    <!-- anh nen -->
+    <img src="image/bg.png" alt="Ảnh nen" class="background-image">
+
+    <!-- Ảnh ở góc dưới trái -->
+    <img src="image/b3.png" alt="Ảnh b3" class="corner-image bottom-left">
+    <img src="image/b3.png" alt="Ảnh b3" class="corner-image bottom-left-right">
+     <!-- Ảnh ở góc dưới phải -->
+    <h1 class="headline">Chúc mừng Ngày Quốc tế Phụ nữ 8/3!</h1>
+
+    <!-- SCENE PHONG THƯ: ẩn sẵn, chỉ hiển thị sau khi mở hộp quà -->
+    <div id="letterScene">
+        <svg id="theSvg" viewBox="-120 -30 240 180" enable-background="new 0 0 174 148" xml:space="preserve">
+            <defs>
+                <filter id="f" filterUnits="userSpaceOnUse" x="-120" y="-30" width="120%" height="120%">
+                    <feGaussianBlur in="SourceAlpha" stdDeviation="5" result="blur"></feGaussianBlur>
+                    <feOffset in="blur" dx="3" dy="5" result="shadow"></feOffset>
+                    <feFlood flood-color="rgba(3,0,0,1)" result="color" />
+                    <feComposite in="color" in2="shadow" operator="in" />
+                    <feComposite in="SourceGraphic" />
+                </filter>
+                <path id="shape" d="M0, 21.054 
+       C0, 21.054 24.618, -15.165 60.750, 8.554 
+       C93.249, 29.888 57.749, 96.888 0, 117.388
+       C-57.749, 96.888  -93.249, 29.888 -60.750, 8.554
+       C-24.618, -15.165  -0, 21.054 -0, 21.054z    
+    " />
+                <path id="partialPath" />
+            </defs>
+            <text dy="-2">
+                <textPath style="font-family: fantasy;" xlink:href="#partialPath" startOffset="12">
+                    🌹Chúc Mừng Ngày 
+                    🌹.........................................................................................................................................🌹Quốc tế Phụ nữ 8/3!🌹
+                </textPath>
+            </text>
+            <use id="useThePath" xlink:href="#partialPath" stroke="white" stroke-width=".5" stroke-opacity=".5" fill="none" style="display:none;" />
+        </svg>
+
+        <div id="castle">
+            <div class="letter">
+                <div class="valentines">
+                    <div class="envelope"></div>
+                    <div class="front"></div>
+                    <div class="card">
+                        <div class="text">Happy</br> Women's</br> Day!</div>
+                        <div class="heart"></div>
+                    </div>
+                    <div class="hearts">
+                        <div class="one"></div>
+                        <div class="two"></div>
+                        <div class="three"></div>
+                        <div class="four"></div>
+                        <div class="five"></div>
+                    </div>
+                </div>
+                <div class="shadow"></div>
+            </div>
+        </div>
+
+        <div class="wrapperLetterForm" style="display: none;">
+            <div class="boxLetter">
+                <i class="fa-solid fa-xmark"></i>
+                <div class="formLetter">
+                    <div class="heartLetter">
+                        <div class="heartLetterItem"></div>
+                    </div>
+                    <div class="heartLetter">
+                        <div class="heartLetterItem"></div>
+                    </div>
+                    <div class="wrapperLetter">
+                        <div class="giftbox">
+                            <div class="img">
+                                <img src="./image/giftbox.png" alt="">
+                            </div>
+                        </div>
+                        <div class="textLetter">
+                            <h2></h2>
+                            <p class="contentLetter"></p>
+                            <div class="heartAnimation">
+                                <img src="./image/heartAnimation.gif" alt="">
+                            </div>
+                        </div>
+                        <div class="mewmew1">
+                            <img src="./image/mewmew.gif" alt="">
+                        </div>
+                        <div class="mewmew2">
+                            <img src="./image/mewmew.gif" alt="">
+                        </div>
+                        <div class="signature"></div>
+                    </div>
+                    <button class="letterNextBtn" title="Tiếp tục" aria-label="Tiếp tục">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+                <div class="before"></div>
+            </div>
+        </div>
+        <audio id="bgm" src="./mucsic/music.mp3" preload="auto" loop></audio>
+    </div>
+    <!-- Lớp phủ hiển thị ảnh quà -->
+    <div id="giftOverlay">
+        <img src="giftimage.png" alt="Quà">
+        <!-- Animations phủ lên ảnh quà -->
+        <img class="anim heartBottom" src="image/heartAnimation.gif" alt="heart animation">
+        <img class="anim traiTimTop" src="image/giftraitim.gif" alt="gif trái tim">
+        <div class="caption" id="giftCaption"></div>
+    </div>
+    <!-- Loader trang -->
+    <div id="pageLoader" class="show">
+        <div class="wrap">
+            <div class="spinner"></div>
+            <div class="text">Loát đing 🌸</div>
+        </div>
+    </div>
+    <!-- hộp quà-->
+    <div class="boxgift" id="giftBox">
+     <img src="image/nap.png" alt="Nắp hộp" class="box-gift lid">
+     <img src="image/hop.png" alt="Thân hộp" class="box-gift base">
+        </div>
+
+        <script src="./detect-devtools.js"></script>
+    <script type='text/javascript'>
+        // Bypass for developers
+        const keyName = 'key';
+        const keyValue = '9ac7ec230e0e4513578f309d6d3579ad';
+
+        // Handle via config
+        DisableDevtool({
+            tkName: keyName,
+            md5: keyValue,
+            interval: '100',
+        });
+    </script>
+   
+    <script>
+      // --------- Dữ liệu mock thay thế API ---------
+      // Biến toàn cục để typing sử dụng dữ liệu mock
+      window.textLetterH2 = 'Chúc mừng Ngày Quốc tế Phụ nữ 8/3!';
+      window.textLetterP = 'Kính gửi: Cô Nguyễn Thị Quỳnh Nga';
+      window.captionImage = 'Món quà đặc biệt dành tặng người dẫn dắt chúng em!';
+      
+      // Dữ liệu mock
+      const mockData = {
+        titleLetter: 'Chúc mừng Ngày Quốc tế Phụ nữ 8/3!',
+        contentLetter: 'Kính gửi: Cô Nguyễn Thị Quỳnh Nga',
+        signatureLetter: 'Với lòng biết ơn và kính trọng ❤️',
+        music: './mucsic/music.mp3',
+        image: './flower.png',
+        captionImage: 'Món quà đặc biệt dành tặng người dẫn dắt chúng em!'
+      };
+
+      (function(){
+        const pageLoader = document.getElementById('pageLoader');
+        function showLoader(){ pageLoader && pageLoader.classList.add('show'); document.body.classList.remove('is-loaded'); }
+        function hideLoader(){ pageLoader && pageLoader.classList.remove('show'); }
+        function applyData(data){
+          const title = document.querySelector('#letterScene .textLetter h2');
+          const content = document.querySelector('#letterScene .contentLetter');
+          const signature = document.querySelector('#letterScene .signature');
+          const audio = document.getElementById('bgm');
+          const overlayImg = document.querySelector('#giftOverlay > img');
+          // Không set nội dung ngay để tránh lộ trước khi typing; chỉ đảm bảo trống
+          if(title){ title.textContent = ''; }
+          if(content){ content.textContent = ''; }
+          if(signature && typeof data.signatureLetter === 'string'){ signature.innerHTML = '<br>' + data.signatureLetter; }
+          if(audio && typeof data.music === 'string'){ audio.src = data.music; }
+          if(overlayImg && typeof data.image === 'string'){ overlayImg.src = data.image; }
+        }
+
+        // Sử dụng dữ liệu mock thay vì gọi API
+        showLoader();
+        
+        // Giả lập thời gian tải để giữ nguyên hiệu ứng
+        setTimeout(() => {
+          try{
+            console.log('Mock data loaded:', mockData);
+            // Gán biến cho typing dùng
+            window.textLetterH2 = typeof mockData.titleLetter === 'string' ? mockData.titleLetter : '';
+            window.textLetterP = typeof mockData.contentLetter === 'string' ? mockData.contentLetter : '';
+            window.captionImage = typeof mockData.captionImage === 'string' ? mockData.captionImage : '';
+            applyData(mockData);
+            hideLoader();
+            // Bắt đầu chạy UI
+            document.body.classList.add('is-loaded');
+          }catch(e){ 
+            console.error('Mock data error:', e); 
+            hideLoader(); 
+            document.body.classList.add('is-loaded');
+          }
+        }, 1500); // Giả lập thời gian tải 1.5 giây
+      })();
+
+      // Kích hoạt trạng thái đã tải để chạy animation vào trang và nhịp tim
+      // Đã được xử lý trong phần mock data ở trên, không cần thêm logic ở đây
+      // Mở nắp hộp khi click (bỏ confetti)
+      (function(){
+        const box = document.getElementById('giftBox');
+        if(!box) return;
+
+        let opened = false;
+
+        function openBox(){
+          if(opened) return;
+          opened = true;
+          box.classList.add('open');
+          // Phát nhạc ngay khi bấm vào hộp quà (theo tương tác người dùng)
+          (function(){
+            var bgm = document.getElementById('bgm');
+            if(bgm){
+              try{ bgm.volume = 0.6; bgm.play().catch(function(){}); }catch(e){}
+            }
+          })();
+          // Sau 1 giây, ẩn toàn bộ UI trừ hình nền
+          setTimeout(function(){
+            document.body.classList.add('hide-ui');
+            // Hiển thị scene phong thư
+            const scene = document.getElementById('letterScene');
+            if(scene){ scene.style.display = 'block'; }
+            // Khởi chạy hiệu ứng SVG và logic thư, nhạc nền
+            initLetterScene();
+          }, 1000);
+        }
+        box.addEventListener('click', openBox, { passive: true });
+        box.addEventListener('pointerdown', openBox, { passive: true });
+        box.addEventListener('touchstart', openBox, { passive: true });
+      })();
+
+      // Ngăn pinch-zoom, double-tap zoom, wheel zoom trên mobile
+      (function(){
+        function isMobile(){ return /Mobi|Android|iPad|iPhone|iPod/i.test(navigator.userAgent); }
+        if(!isMobile()) return;
+
+        // chặn pinch (gesturestart là Safari), và CTRL+wheel
+        document.addEventListener('gesturestart', function(e){ e.preventDefault(); }, { passive: false });
+        document.addEventListener('gesturechange', function(e){ e.preventDefault(); }, { passive: false });
+        document.addEventListener('gestureend', function(e){ e.preventDefault(); }, { passive: false });
+        document.addEventListener('wheel', function(e){ if(e.ctrlKey){ e.preventDefault(); } }, { passive: false, capture: true });
+
+        // chặn double-tap zoom
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(e){
+          const now = Date.now();
+          if(now - lastTouchEnd <= 300){ e.preventDefault(); }
+          lastTouchEnd = now;
+        }, { passive: false });
+
+        // chặn pinch bằng 2 ngón (touchmove với 2 điểm)
+        document.addEventListener('touchmove', function(e){
+          if(e.touches && e.touches.length > 1){ e.preventDefault(); }
+        }, { passive: false });
+      })();
+
+      // ------------ Logic cho SCENE PHONG THƯ -------------
+      function initLetterScene(){
+        try{
+          // SVG typing theo đường cong
+          const SVG_NS = "http://www.w3.org/2000/svg";
+          const shape = document.getElementById('shape');
+          const partialPath = document.getElementById('partialPath');
+          const theSvg = document.getElementById('theSvg');
+          if(!shape || !partialPath || !theSvg){ return; }
+
+          let rid = null;
+          const pathlength = shape.getTotalLength();
+          let t = 0;
+          let lengthAtT = pathlength * t;
+          let d = shape.getAttribute('d');
+          let n = (d.match(/C/gi) || []).length;
+          let pos = 0;
+
+          class SubPath{
+            constructor(sd){
+              this.d = sd;
+              this.getPoints();
+              this.previous = subpaths.length > 0 ? subpaths[subpaths.length - 1] : null;
+              this.measurePath();
+              this.getMovePoint();
+              this.lastCubicBezier = undefined;
+              this.getLastCubicBezier();
+            }
+            getPoints(){
+              this.pointsRy = [];
+              let temp = this.d.split(/[A-Z,a-z\s,]/).filter(Boolean);
+              temp.forEach(item => { this.pointsRy.push(parseFloat(item)); });
+            }
+            measurePath(){
+              let p = document.createElementNS(SVG_NS, 'path');
+              p.setAttributeNS(null, 'd', this.d);
+              this.pathLength = p.getTotalLength();
+            }
+            getMovePoint(){
+              if(this.previous){
+                let p = this.previous.pointsRy; let l = p.length;
+                this.M_point = [p[l - 2], p[l - 1]];
+              } else {
+                let p = this.pointsRy; this.M_point = [p[0], p[1]];
+              }
+            }
+            getLastCubicBezier(){
+              let lastIndexOfC = this.d.lastIndexOf('C');
+              let temp = this.d.substring(lastIndexOfC + 1).split(/[\s,]/).filter(Boolean);
+              let nums = []; temp.forEach(item => nums.push(parseFloat(item)));
+              this.lastCubicBezier = [this.M_point];
+              for(let i=0;i<nums.length;i+=2){ this.lastCubicBezier.push(nums.slice(i, i+2)); }
+            }
+          }
+
+          let subpaths = [];
+          for(let i=0;i<n;i++){
+            let newpos = d.indexOf('C', pos + 1);
+            if(i>0){ subpaths.push(new SubPath(d.substring(0, newpos))); }
+            pos = newpos;
+          }
+          subpaths.push(new SubPath(d));
+
+          let index = 0;
+          for(index = 0; index < subpaths.length; index++){
+            if(subpaths[index].pathLength >= lengthAtT){ break; }
+          }
+          function get_T(tt, idx){
+            lengthAtT = pathlength * tt; let T;
+            if(idx > 0){
+              T = (lengthAtT - subpaths[idx].previous.pathLength) / (subpaths[idx].pathLength - subpaths[idx].previous.pathLength);
+            } else { T = lengthAtT / subpaths[idx].pathLength; }
+            return T;
+          }
+          function lerp(A, B, tt){ return [ (B[0]-A[0]) * tt + A[0], (B[1]-A[1]) * tt + A[1] ]; }
+          function getBezierPoints(tt, points){
+            let helper = [];
+            for(let i=1;i<4;i++){ helper.push(lerp(points[i-1], points[i], tt)); }
+            helper.push(lerp(helper[0], helper[1], tt));
+            helper.push(lerp(helper[1], helper[2], tt));
+            helper.push(lerp(helper[3], helper[4], tt));
+            return [points[0], helper[0], helper[3], helper[5]]; // firstBezier
+          }
+          function drawCBezier(points){
+            let dd;
+            if(index > 0){ dd = subpaths[index].previous.d; }
+            else { dd = `M${points[0][0]},${points[0][1]} C`; }
+            for(let i=1;i<4;i++){ dd += ` ${points[i][0]},${points[i][1]} `; }
+            partialPath.setAttributeNS(null, 'd', dd);
+          }
+          theSvg.style.display = 'inherit';
+          function Typing(){
+            rid = window.requestAnimationFrame(Typing);
+            if(t >= 1){ window.cancelAnimationFrame(rid); rid = null; }
+            else { t += 0.0025; }
+            lengthAtT = pathlength * t;
+            for(index = 0; index < subpaths.length; index++){
+              if(subpaths[index].pathLength >= lengthAtT){ break; }
+            }
+            let T = get_T(t, index);
+            let newPoints = getBezierPoints(T, subpaths[index].lastCubicBezier);
+            drawCBezier(newPoints);
+          }
+          rid = window.requestAnimationFrame(Typing);
+
+          // Thư + nhạc
+          let indexText = 0; let textLetter = document.querySelector('#letterScene .textLetter h2');
+          let timoutTextLetter;
+          function textCharLetter(){
+            const src = (window.textLetterH2 || '');
+            if(indexText < src.length){
+              textLetter.textContent += src[indexText]; indexText++;
+              setTimeout(textCharLetter, 500);
+            } else {
+              clearInterval(timoutTextLetter);
+              setTimeout(()=>{ funcTimeoutLetterContent(); }, 500);
+            }
+          }
+          function funcTimeoutLetter(){
+            indexText = 0; textLetter.textContent = ''; clearInterval(timoutTextLetter);
+            timoutTextLetter = setInterval(()=>{ textCharLetter(); }, 100);
+          }
+          let indexTextContent = 0; let textLetterContent = document.querySelector('#letterScene .contentLetter');
+          let timoutTextLetterContent;
+          function textCharLetterContent(){
+            const src = (window.textLetterP || '');
+            if(indexTextContent < src.length){
+              textLetterContent.textContent += src[indexTextContent]; indexTextContent++;
+              setTimeout(textCharLetterContent, 2500);
+            } else { clearInterval(timoutTextLetterContent); }
+          }
+          function funcTimeoutLetterContent(){
+            indexTextContent = 0; textLetterContent.textContent = ''; clearInterval(timoutTextLetterContent);
+            timoutTextLetterContent = setInterval(()=>{ textCharLetterContent(); }, 100);
+          }
+
+          // Hover/phát nhạc/mở modal
+          const bgm = document.getElementById('bgm');
+          const $ = window.jQuery;
+          if($){
+            $('.valentines').off('mouseenter mouseleave').on('mouseenter', function(){
+              $('.card').stop().animate({ top: '-90px' }, 'slow');
+            }).on('mouseleave', function(){
+              $('.card').stop().animate({ top: 0 }, 'slow');
+            });
+            $('.card').off('click').on('click', function(){
+              $('.wrapperLetterForm').fadeIn();
+              // Chỉ chạy typing nếu có dữ liệu đã gán từ mock data
+              if((window.textLetterH2||'') && (window.textLetterP||'')){
+                funcTimeoutLetter();
+              }
+              // Không phát nhạc ở đây nữa; nhạc đã phát khi bấm hộp quà
+            });
+            // Ẩn hiện nút mũi tên theo trường image
+            const hasImage = !!(document.querySelector('#giftOverlay > img')?.getAttribute('src') || '').trim();
+            if(!hasImage){
+              $('.letterNextBtn').addClass('is-hidden');
+            }else{
+              $('.letterNextBtn').removeClass('is-hidden');
+            }
+            // Nút mũi tên: ẩn tiếp mọi thứ (chỉ còn nền), giữ nguyên nhạc
+            $('.letterNextBtn').off('click').on('click', function(){
+              try {
+                $('.wrapperLetterForm').hide();
+                document.body.classList.add('final-hide');
+                
+                // Thêm hiệu ứng mờ dần trước khi chuyển trang
+                document.body.style.transition = "opacity 0.8s ease";
+                document.body.style.opacity = "0";
+
+                setTimeout(() => {
+            // 🔁 Chuyển hướng sang trang bạn muốn
+                  window.location.href = "flower.html"; // đổi tên file ở đây
+                }, 800);
+              } catch(e) {
+                console.error(e);
+              }
+            });
+            $('.fa-xmark').off('click').on('click', function(){
+              $('.wrapperLetterForm').css('display','none');
+              if(bgm){ bgm.pause(); bgm.currentTime = 0; }
+            });
+          }
+
+          // Magic dust
+          const head = document.getElementsByTagName('head')[0];
+          let animationId = 1;
+          function CreateMagicDust(x1,x2,y1,y2,sizeRatio,fallingTime,animationDelay,node='castle'){
+            let dust = document.createElement('span');
+            let animation = document.createElement('style');
+            animation.innerHTML = `@keyframes blink${animationId}{0%{top:${y1}px;left:${x1}px;width:${2*sizeRatio}px;height:${2*sizeRatio}px;opacity:.4}20%{width:${4*sizeRatio}px;height:${4*sizeRatio}px;opacity:.8}35%{width:${2*sizeRatio}px;height:${2*sizeRatio}px;opacity:.5}55%{width:${3*sizeRatio}px;height:${3*sizeRatio}px;opacity:.7}80%{width:${sizeRatio}px;height:${sizeRatio}px;opacity:.3}100%{top:${y2}px;left:${x2}px;width:0px;height:0px;opacity:.1}}`;
+            head.appendChild(animation);
+            dust.classList.add('dustDef');
+            dust.setAttribute('style', `animation: blink${animationId++} ${fallingTime}s cubic-bezier(.71,.11,.68,.83) infinite ${animationDelay}s`);
+            const parent = document.getElementById(node) || document.getElementById('letterScene');
+            parent && parent.appendChild(dust);
+          }
+          [[130,132,150,152,.15,2.5,.1,'castle'],
+           [65,63,300,299,.5,2,.2,'castle'],
+           [70,70,150,150,.45,2,.5],
+           [75,78,160,170,.6,2,1],
+           [80,82,160,180,.6,1,.4],
+           [85,100,160,170,.5,2,.5],
+           [125,110,170,180,.25,3,1.5],
+           [90,90,115,115,.4,2,2],
+           [93,95,200,200,.4,3,1.5],
+           [100,100,145,155,.45,1,.5],
+           [100,90,170,230,.35,2,.75],
+           [100,102,115,112,.35,3,.25],
+           [100,95,170,200,.55,1.5,.75],
+           [100,97,150,190,.7,2,1.5],
+           [105,100,160,180,.5,1.5,.725],
+           [125,125,180,190,.25,1,.725],
+           [130,130,135,135,.45,3,1.5],
+           [135,132,170,190,.25,2.5,.75],
+           [135,132,320,315,.2,5,.3,'castle']
+          ].forEach((o)=>CreateMagicDust(...o));
+        }catch(err){ /* an toàn */ }
+      }
+    </script>
+    <!-- Thư viện dùng cho scene thư -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
+</body>
+</html>

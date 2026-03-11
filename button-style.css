@@ -1,0 +1,83 @@
+.noselect {
+ width: 150px;
+ height: 50px;
+ cursor: pointer;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ background: #e62222;
+ border: none;
+ border-radius: 5px;
+ box-shadow: 1px 1px 3px rgba(0,0,0,0.15);
+ position: relative;
+ overflow: hidden;
+}
+
+.noselect, .noselect span {
+ transition: 200ms;
+}
+
+/* ===== FIX CHỮ CĂN GIỮA ===== */
+.noselect .text {
+ color: white;
+ font-weight: bold;
+ letter-spacing: 1px;
+}
+
+/* ===== ICON ===== */
+.noselect .icon {
+ position: absolute;
+ right: 0;
+ top: 0;
+ border-left: 1px solid #c41b1b;
+ height: 100%;
+ width: 40px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+}
+
+.noselect svg {
+ width: 15px;
+ fill: #eee;
+}
+
+/* ===== HOVER ===== */
+.noselect:hover {
+ background: #ff3636;
+}
+
+.noselect:hover .text {
+ color: transparent;
+}
+
+.noselect:hover .icon {
+ width: 100%;
+ border-left: none;
+}
+
+/* ===== CLICK ===== */
+.noselect:focus {
+ outline: none;
+}
+
+.noselect:active svg {
+ transform: scale(0.8);
+}
+
+/* ===== WRAPPER ===== */
+.btn-wrapper {
+ margin-top: 30px;
+ display: flex;
+ justify-content: center;
+ width: 100%;
+ flex-basis: 100%;   /* ép nút xuống hàng mới */
+}
+
+/* ===== CONTAINER ===== */
+#cardContainer{
+display:flex;
+gap:20px;
+justify-content:center;
+margin-top:20px;
+}

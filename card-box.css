@@ -1,0 +1,165 @@
+/* KHUNG NGOÀI */
+.card-box {
+    text-align: center;
+}
+
+.card-box h2 {
+    color: #b94e7a;
+    margin-bottom: 20px;
+}
+
+/* FLIP CARD */
+.flip-card {
+  width: 380px;
+  height: 260px;
+  perspective: 1200px;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+/* 2 MẶT */
+.flip-card-front, 
+.flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 1.5rem;
+  backface-visibility: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+}
+
+/* MẶT TRƯỚC */
+.flip-card-front {
+  background: linear-gradient(135deg, #ffd6e8, #ffc2dc);
+}
+
+/* FORM */
+.form-area {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-area h3 {
+  color: #a03a66;
+}
+
+.form-area input {
+  padding: 10px;
+  border-radius: 8px;
+  border: 2px solid #ff9ec9;
+  outline: none;
+}
+
+.form-area button {
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background: #ff6fa5;
+  color: white;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.form-area button:hover {
+  background: #e2558f;
+}
+
+/* MẶT SAU */
+.flip-card-back {
+  background: linear-gradient(135deg, #ff8fc1, #ff6fa5);
+  transform: rotateY(180deg);
+  color: white;
+}
+
+/* GACHA SCREEN */
+.gacha-screen {
+    text-align: center;
+}
+
+.gacha-title {
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+/* Ô HIỂN THỊ THẺ */
+.card-slot {
+    width: 200px;
+    height: 90px;
+    background: white;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin: 0 auto 15px auto;
+    overflow: hidden;
+}
+
+/* ÁNH SÁNG */
+.glow {
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.6) 0%, transparent 70%);
+    animation: rotateGlow 3s linear infinite;
+}
+
+@keyframes rotateGlow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.result-name {
+    position: relative;
+    font-weight: bold;
+    color: #ff4f9a;
+}
+
+/* NÚT RÚT */
+.draw-btn {
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    background: white;
+    color: #ff4f9a;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.draw-btn:hover {
+    background: #ffe4f0;
+}
+.gacha-title {
+    color: #f60909;   /* đổi màu tại đây */
+}
+.result-image{
+width:120px;
+margin-top:10px;
+}
+
+.back-btn{
+    position:absolute;
+    top:15px;
+    left:15px;
+    font-size:24px;
+    border:none;
+    background:none;
+    cursor:pointer;
+    color:#e03a5b;
+}
+
+.back-btn:hover{
+    transform: scale(1.2);
+}

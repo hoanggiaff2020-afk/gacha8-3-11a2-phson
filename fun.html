@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Câu hỏi nhỏ 💕</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body {
+       background: url("background2.png") no-repeat center center fixed;
+    background-size: cover;
+      color: #fff;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      text-shadow: 0 0 6px rgba(0, 50, 100, 0.6);
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+    }
+
+    #yesBtn, #noBtn {
+      padding: 10px 25px;
+      border: none;
+      border-radius: 40px;
+      font-size: 1.3rem;
+      margin: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    #yesBtn {
+      background-color: #ff69b4;
+      color: white;
+    }
+
+    #yesBtn:hover {
+      background-color: #ff85c1;
+    }
+
+    #noBtn {
+      background-color: #ccc;
+      color: black;
+      position: relative;
+    }
+
+    #heartLoader {
+      display: none;
+      font-size: 2rem;
+      margin-top: 20px;
+    }
+
+    #resultContainer {
+      display: none;
+      margin-top: 30px;
+    }
+
+    #resultContainer p {
+      font-size: 2rem;
+      color: #f7f7f7;
+    }
+
+    #gifResult {
+      width: 200px;
+      margin-top: 15px;
+    }
+
+    /* 🌸 Nút "Tiếp tục" màu hồng */
+    .next-btn {
+      display: inline-block;
+      background-color: #ff69b4;
+      color: #fff;
+      font-size: 1.2rem;
+      font-weight: 600;
+      text-decoration: none;
+      padding: 10px 25px;
+      border-radius: 40px;
+      margin-top: 15px;
+      box-shadow: 0 0 15px rgba(255, 105, 180, 0.5);
+      transition: all 0.3s ease;
+    }
+
+    .next-btn:hover {
+      background-color: #ff85c1;
+      box-shadow: 0 0 25px rgba(255, 153, 204, 0.8);
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Cô thấy lớp chúng mình có ngịch không cô? 🤗</h1>
+
+  <div class="buttons">
+    <button id="yesBtn">Không! 💖</button>
+    <button id="noBtn">Có! 😝</button>
+  </div>
+
+  <div id="heartLoader">😗😗😗</div>
+
+  <div id="resultContainer">
+    <p>Đúng là không nghịch cô nhỉ 🤣</p>
+    <br>
+    <!-- 🔹 Thay link cũ bằng nút hồng -->
+    <a href="test.html" class="next-btn">🌸 Tiếp tục 🌸</a>
+  </div>
+
+  <script>
+    const yesBtn = document.querySelector("#yesBtn");
+    const noBtn = document.querySelector("#noBtn");
+    const heartLoader = document.querySelector("#heartLoader");
+    const resultContainer = document.querySelector("#resultContainer");
+    const gifResult = document.querySelector("#gifResult");
+
+    // "Không" chạy trốn
+    noBtn.addEventListener("mouseover", () => {
+      const containerWidth = window.innerWidth;
+      const containerHeight = window.innerHeight;
+
+      const newX = Math.floor(Math.random() * (containerWidth - noBtn.offsetWidth));
+      const newY = Math.floor(Math.random() * (containerHeight - noBtn.offsetHeight));
+
+      noBtn.style.position = "absolute";
+      noBtn.style.left = `${newX}px`;
+      noBtn.style.top = `${newY}px`;
+    });
+
+    // "Có" → hiện tim & kết quả
+    yesBtn.addEventListener("click", () => {
+      heartLoader.style.display = "block";
+
+      setTimeout(() => {
+        heartLoader.style.display = "none";
+        resultContainer.style.display = "block";
+      }, 1000);
+    });
+  </script>
+</body>
+</html>
